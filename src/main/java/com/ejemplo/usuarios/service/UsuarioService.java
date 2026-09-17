@@ -1,8 +1,9 @@
 package com.ejemplo.usuarios.service;
 
+import org.springframework.stereotype.Service;
+
 import com.ejemplo.usuarios.model.Usuario;
 import com.ejemplo.usuarios.repository.UsuarioRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
