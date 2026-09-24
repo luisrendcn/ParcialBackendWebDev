@@ -1,4 +1,4 @@
-package com.ejemplo.usuarios;
+package com.ejemplo.productos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +22,27 @@ class UsuariosApplicationTests {
 	}
 
 	@Test
-	void listaTresUsuariosIniciales() throws Exception {
-		mockMvc.perform(get("/api/usuarios"))
+	void listaCincoProductosIniciales() throws Exception {
+		mockMvc.perform(get("/api/productos"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$[0].nombre").value("Ana Pérez"))
-				.andExpect(jsonPath("$[1].nombre").value("Luis Gómez"))
-				.andExpect(jsonPath("$[2].nombre").value("María Ruiz"))
-				.andExpect(jsonPath("$[0].edad").value(25));
+				.andExpect(jsonPath("$.length()").value(5))
+				.andExpect(jsonPath("$[0].nombre").value("Laptop HP"))
+				.andExpect(jsonPath("$[0].precio").value(2500.0))
+				.andExpect(jsonPath("$[0].stock").value(10));
+	}
+
+	@Test
+	void buscaProductoPorId() throws Exception {
+		mockMvc.perform(get("/api/productos/1"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.nombre").value("Laptop HP"));
+	}
+
+	@Test
+	void productoInexistenteDevuelve404() throws Exception {
+		mockMvc.perform(get("/api/productos/999"))
+				.andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.error").value("Producto no encontrado con id: 999"));
 	}
 
 }
